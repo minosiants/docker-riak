@@ -36,9 +36,10 @@ VOLUME /var/log/riak
 # Open ports for HTTP and Protocol Buffers
 EXPOSE 8098 8087
 
-# Enable insecure SSH key
-# See: https://github.com/phusion/baseimage-docker#using_the_insecure_key_for_one_container_only
-RUN /usr/sbin/enable_insecure_key
+## Install an SSH of your choice. should be copied into this dir first
+ADD docker_rsa.pub /tmp/your_key
+RUN cat /tmp/your_key >> /root/.ssh/authorized_keys && rm -f /tmp/your_key
+
 
 # Cleanup
 RUN rm "/riak_${RIAK_VERSION}-1_amd64.deb"
